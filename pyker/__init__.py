@@ -1,6 +1,7 @@
 f"""Pyker: A Python package for cards/deck management and poker hand scoring.
 
-Pyker provides classes and functions for managing decks of cards, evaluating poker hands, and performing various operations related to card games.
+Pyker provides classes and functions for managing decks of cards, evaluating poker hands, and
+performing various operations related to card games.
 
 Classes:
     - Card: Represents a playing card with a rank and a suit.
@@ -40,7 +41,8 @@ Usage:
     >>>     result = "Player 2 wins"
 
 
-For more detailed documentation and examples, please refer to the individual modules and classes within the package.
+For more detailed documentation and examples, please refer to the individual modules and classes
+within the package.
 """
 
 from .enums import Suit, Rank, HandType
