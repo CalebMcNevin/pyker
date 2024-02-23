@@ -4,6 +4,7 @@ from typing import Tuple
 
 
 class Card(object):
+    _id = 0
 
     def __init__(self, card_def: str | Tuple[Rank, Suit]):
         match card_def:
@@ -13,6 +14,8 @@ class Card(object):
                 self.rank, self.suit = card_def
             case _:
                 raise ValueError
+        Card._id += 1
+        self._id = Card._id
 
     def __eq__(self, other):
         return self.rank == other.rank and self.suit == other.suit
@@ -60,8 +63,13 @@ class Card(object):
             return False
         return self > other and self @ other
 
+    def __repr__(self):
+        class_name = type(self).__name__
+        return f"<{class_name}(rank={self.rank}, suit={self.suit}) _id={self._id}>"
+
     def __str__(self):
         return f"{self.rank.alias}{self.suit.symbol}"
+    
     
     @staticmethod
     def parse_card(card_def: str):
