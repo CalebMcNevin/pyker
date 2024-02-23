@@ -21,21 +21,19 @@ class ScoredHand():
     def __eq__(self, other):
         if self.hand_type == other.hand_type:
             return self.kickers == other.kickers
-        else:
-            return False
+        return False
 
     def __lt__(self, other):
         if self.hand_type.value < other.hand_type.value:
             return True
-        elif self.hand_type.value > other.hand_type.value:
+        if self.hand_type.value > other.hand_type.value:
             return False
-        else:
-            for s, o in zip(self.kickers, other.kickers):
-                if s < o:
-                    return True
-                elif s > o:
-                    return False
-            return False
+        for s, o in zip(self.kickers, other.kickers):
+            if s < o:
+                return True
+            if s > o:
+                return False
+        return False
 
     def __str__(self):
         hand_name = self.hand_type.name.title().replace('_', ' ')
@@ -76,10 +74,9 @@ class ScoredHand():
             if Rank.ACE in self.ranks and Rank.KING in self.ranks:
                 self.hand_type = HandType.ROYAL_FLUSH
                 return
-            else:
-                self.hand_type = HandType.STRAIGHT_FLUSH
-                self.kickers.append(self.cards[0].rank)
-                return
+            self.hand_type = HandType.STRAIGHT_FLUSH
+            self.kickers.append(self.cards[0].rank)
+            return
         if self.is_flush:
             self.hand_type = HandType.FLUSH
             self.kickers = [c.rank for c in self.cards]
@@ -97,25 +94,20 @@ class ScoredHand():
         if counts[0] == 4:
             self.hand_type = HandType.FOUR_OF_A_KIND
             return
-        elif counts[0] == 3:
+        if counts[0] == 3:
             if counts[1] == 2:
                 self.hand_type = HandType.FULL_HOUSE
                 return
-            else:
-                self.hand_type = HandType.THREE_OF_A_KIND
-                return
-        elif counts[0] == 2:
+            self.hand_type = HandType.THREE_OF_A_KIND
+            return
+        if counts[0] == 2:
             if counts[1] == 2:
                 self.hand_type = HandType.TWO_PAIR
                 return
-            else:
-                self.hand_type = HandType.PAIR
-                return
-        else:
-            self.hand_type = HandType.HIGH_CARD
+            self.hand_type = HandType.PAIR
             return
-        raise Exception(f'''Failed to find hand type for {self.__repr__()}:
-            {[str(card) for card in self.cards]}''')
+        self.hand_type = HandType.HIGH_CARD
+        return
 
     def check_straight(self):
         self.sort(aces_high=True)
