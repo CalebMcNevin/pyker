@@ -106,6 +106,10 @@ class Deck():
 
     @cached_property
     def best_hand(self: Deck) -> ScoredHand:
+        if (n_cards := len(self.cards)) < 5:
+            err_msg = 'Poker hand scoring not implemented for hands with fewer than 5 cards.'
+            err_msg += f' Tried to score hand with {n_cards} cards.'
+            raise NotImplementedError(err_msg)
         self._best_hand_updated = True
         possible_hands = combinations(self.cards, 5)
         best_hand = max(ScoredHand(list(h)) for h in possible_hands)
