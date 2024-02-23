@@ -124,10 +124,10 @@ class Card():
             return False
         if abs(self.rank.number - other.rank.number) == 1:
             return True
-        if Rank.ACE in {self.rank, other.rank}:
-            if Rank.TWO in {self.rank, other.rank}:
+        if Rank.ACE in (self.rank, other.rank):
+            if Rank.TWO in (self.rank, other.rank):
                 return True
-            if Rank.KING in {self.rank, other.rank}:
+            if Rank.KING in (self.rank, other.rank):
                 return True
         return False
 
