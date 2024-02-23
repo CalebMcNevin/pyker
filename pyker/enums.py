@@ -49,10 +49,9 @@ class Rank(Enum):
     def __gt__(self, other):
         if other == Rank.ACE:
             return False
-        elif self == Rank.ACE:
+        if self == Rank.ACE:
             return other != Rank.ACE
-        else:
-            return self.number > other.number
+        return self.number > other.number
 
     def __lt__(self, other):
         if self == Rank.ACE:
