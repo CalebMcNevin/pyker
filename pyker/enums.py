@@ -15,6 +15,9 @@ class Suit(Enum):
         self.alias = alias
         self.symbol = symbol
 
+    def __repr__(self):
+        return f'<Rank.{self.name}>'
+
 
 @total_ordering
 class Rank(Enum):
@@ -36,6 +39,9 @@ class Rank(Enum):
         self.number = number
         self.long_alias = long_alias
         self.alias = alias
+
+    def __repr__(self):
+        return f'<Suit.{self.name}>'
 
     def __eq__(self, other):
         return self.number == other.number
