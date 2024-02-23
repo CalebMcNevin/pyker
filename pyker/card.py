@@ -1,3 +1,4 @@
+from __future__ import annotations
 from .enums import Suit, Rank
 from typing import Tuple
 

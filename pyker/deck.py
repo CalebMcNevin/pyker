@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import Tuple
 from random import shuffle
 from itertools import product, combinations
