@@ -57,12 +57,20 @@ class Deck(object):
     def __add__(self, other):
         return Deck(self.cards + other.cards)
 
+    @property
+    def original_cardset(self):
+        return list(self._original_cardset)
+
     @staticmethod
     def parse_cards(card_def: str = ''):
         card_strings = card_def.split(' ')
         cards = [Card(cs) for cs in card_strings]
         print(cards)
         return cards
+
+    def retrieve_cards(self):
+        """Retrieve all cards that have been dealt or removed from the cards list"""
+        self.cards = self._original_cardset
 
     def shuffle(self):
         shuffle(self.cards)
