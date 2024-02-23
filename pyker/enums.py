@@ -56,10 +56,9 @@ class Rank(Enum):
     def __lt__(self, other):
         if self == Rank.ACE:
             return False
-        elif other == Rank.ACE:
+        if other == Rank.ACE:
             return self != Rank.ACE
-        else:
-            return self.number < other.number
+        return self.number < other.number
 
 
 class HandType(Enum):
