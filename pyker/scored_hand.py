@@ -73,40 +73,36 @@ class ScoredHand():
         if self.is_flush and self.is_straight:
             if Rank.ACE in self.ranks and Rank.KING in self.ranks:
                 self.hand_type = HandType.ROYAL_FLUSH
-                return
-            self.hand_type = HandType.STRAIGHT_FLUSH
-            self.kickers.append(self.cards[0].rank)
-            return
-        if self.is_flush:
+            else:
+                self.hand_type = HandType.STRAIGHT_FLUSH
+                self.kickers.append(self.cards[0].rank)
+        elif self.is_flush:
             self.hand_type = HandType.FLUSH
             self.kickers = [c.rank for c in self.cards]
-            return
-        if self.is_straight:
+        elif self.is_straight:
             self.hand_type = HandType.STRAIGHT
             self.kickers.append(self.cards[0].rank)
-            return
 
         # Look for rank-match based hands
-        counter = Counter([card.rank.name for card in self.cards])
-        most_common = counter.most_common()
-        counts = [x[1] for x in most_common]
-        self.kickers += [Rank[name] for name, _ in most_common]
-        if counts[0] == 4:
-            self.hand_type = HandType.FOUR_OF_A_KIND
-            return
-        if counts[0] == 3:
-            if counts[1] == 2:
-                self.hand_type = HandType.FULL_HOUSE
-                return
-            self.hand_type = HandType.THREE_OF_A_KIND
-            return
-        if counts[0] == 2:
-            if counts[1] == 2:
-                self.hand_type = HandType.TWO_PAIR
-                return
-            self.hand_type = HandType.PAIR
-            return
-        self.hand_type = HandType.HIGH_CARD
+        else:
+            counter = Counter([card.rank.name for card in self.cards])
+            most_common = counter.most_common()
+            counts = [x[1] for x in most_common]
+            self.kickers += [Rank[name] for name, _ in most_common]
+            if counts[0] == 4:
+                self.hand_type = HandType.FOUR_OF_A_KIND
+            elif counts[0] == 3:
+                if counts[1] == 2:
+                    self.hand_type = HandType.FULL_HOUSE
+                else:
+                    self.hand_type = HandType.THREE_OF_A_KIND
+            elif counts[0] == 2:
+                if counts[1] == 2:
+                    self.hand_type = HandType.TWO_PAIR
+                else:
+                    self.hand_type = HandType.PAIR
+            else:
+                self.hand_type = HandType.HIGH_CARD
         return
 
     def check_straight(self):
