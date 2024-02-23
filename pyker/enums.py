@@ -1,5 +1,5 @@
 from __future__ import annotations
-from enum import Enum, EnumType
+from enum import Enum
 from functools import total_ordering
 
 
