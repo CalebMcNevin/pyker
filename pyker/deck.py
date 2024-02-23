@@ -110,7 +110,7 @@ class Deck():
 
     @cached_property
     def best_hand(self: Deck) -> ScoredHand:
-        self.best_hand_updated = True
+        self._best_hand_updated = True
         possible_hands = combinations(self.cards, 5)
         best_hand = max(ScoredHand(list(h)) for h in possible_hands)
         return best_hand
