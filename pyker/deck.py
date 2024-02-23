@@ -10,6 +10,7 @@ from .scored_hand import ScoredHand
 
 
 class Deck(object):
+    _id = 0
 
     def __init__(
         self,
@@ -30,11 +31,19 @@ class Deck(object):
                 self.cards = [Card((r, s)) for (r, s) in product(Rank, Suit)]
             case _:
                 raise ValueError
+        Deck._id += 1
+        self._id = Deck._id
+        self._original_cardset = self.cards
         self._best_hand_updated = False
         self.sort()
 
     def __str__(self):
-        return ", ".join(str(card) for card in self.cards)
+        return "  ".join(str(card) for card in self.cards)
+
+    def __repr__(self):
+        class_name = type(self).__name__
+        cards_list = '  '.join(str(card) for card in self.cards[:8])
+        return f'<{class_name} id={self._id} num_cards={len(self.cards)} cards=[{cards_list} {"..." if len(self.cards)>8 else ""}]>'
 
     def __iter__(self):
         return iter(self.cards)
