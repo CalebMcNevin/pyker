@@ -7,6 +7,7 @@ from typing import Tuple
 
 from .card import Card
 from .enums import Rank, Suit
+from .utils import sort_cards_by_rank
 from .scored_hand import ScoredHand
 
 
@@ -94,12 +95,7 @@ class Deck():
             del self.best_hand
 
     def sort_by_rank(self: Deck, aces_high: bool = True) -> None:
-        self.cards = sorted(self.cards,
-                            reverse=True,
-                            key=lambda card: card.rank.number
-                            if not aces_high else
-                            (card.rank.number
-                             if card.rank != Rank.ACE else 14))
+        self.cards = sort_cards_by_rank(cards=self.cards, aces_high=aces_high)
 
     def sort_by_suit(self: Deck) -> None:
         self.cards = sorted(self.cards, key=lambda card: card.suit.index)

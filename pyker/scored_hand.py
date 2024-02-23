@@ -3,6 +3,7 @@ from functools import total_ordering
 from collections import Counter
 
 from .enums import Rank, Suit, HandType
+from .utils import sort_cards_by_rank
 
 
 @total_ordering
@@ -57,12 +58,7 @@ class ScoredHand():
         return ranks
 
     def sort(self, aces_high: bool = True):
-        self.cards = sorted(self.cards,
-                            reverse=True,
-                            key=lambda card: card.rank.number
-                            if not aces_high else
-                            (card.rank.number
-                             if card.rank != Rank.ACE else 14))
+        self.cards = sort_cards_by_rank(cards=self.cards, aces_high=aces_high)
 
     def score_hand(self):
         self.sort()
