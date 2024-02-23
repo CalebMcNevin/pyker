@@ -124,10 +124,10 @@ class Card():
             return False
         if abs(self.rank.number - other.rank.number) == 1:
             return True
-        if Rank.ACE in {self.rank,other.rank):
-            if Rank.TWO in {self.rank, other.rank):
+        if Rank.ACE in {self.rank, other.rank}:
+            if Rank.TWO in {self.rank, other.rank}:
                 return True
-            if Rank.KING in {self.rank, other.rank):
+            if Rank.KING in {self.rank, other.rank}:
                 return True
         return False
 
@@ -167,6 +167,6 @@ class Card():
         enums = list(Rank) + list(Suit)
         mapping = {e.alias: e for e in enums}
         els = [mapping[e] for e in card_def]
-        rank = list(filter(lambda e: isinstance(e,Rank), els))[0]
-        suit = list(filter(lambda e: isinstance(e,Suit), els))[0]
+        rank = list(filter(lambda e: isinstance(e, Rank), els))[0]
+        suit = list(filter(lambda e: isinstance(e, Suit), els))[0]
         return (rank, suit)
