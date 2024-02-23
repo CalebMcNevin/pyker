@@ -22,8 +22,6 @@ Usage:
     >>> deck = Deck()
     >>> deck.shuffle()
     >>> hand = deck.deal(5)
-    >>> print(hand)
-    >>> print(hand.best_hand)
 
 
     # Hold'em example
