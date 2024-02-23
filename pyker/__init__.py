@@ -1,4 +1,4 @@
-f"""Pyker: A Python package for cards/deck management and poker hand scoring.
+"""Pyker: A Python package for cards/deck management and poker hand scoring.
 
 Pyker provides classes and functions for managing decks of cards, evaluating poker hands, and
 performing various operations related to card games.
