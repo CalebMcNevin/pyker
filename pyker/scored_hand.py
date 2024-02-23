@@ -65,41 +65,50 @@ class ScoredHand():
         self.hand_type = None
         self.kickers = []
 
-        # Look for straight and flush based hands
         if self.is_flush and self.is_straight:
-            if Rank.ACE in self.ranks and Rank.KING in self.ranks:
-                self.hand_type = HandType.ROYAL_FLUSH
-            else:
-                self.hand_type = HandType.STRAIGHT_FLUSH
-                self.kickers.append(self.cards[0].rank)
+            self._score_straight_flush()
         elif self.is_flush:
-            self.hand_type = HandType.FLUSH
-            self.kickers = [c.rank for c in self.cards]
+            self._score_flush()
         elif self.is_straight:
-            self.hand_type = HandType.STRAIGHT
+            self._score_straight()
+        else:
+            self._score_rank_match()
+
+    def _score_straight_flush(self):
+        if Rank.ACE in self.ranks and Rank.KING in self.ranks:
+            self.hand_type = HandType.ROYAL_FLUSH
+        else:
+            self.hand_type = HandType.STRAIGHT_FLUSH
             self.kickers.append(self.cards[0].rank)
 
-        # Look for rank-match based hands
-        else:
-            counter = Counter([card.rank.name for card in self.cards])
-            most_common = counter.most_common()
-            counts = [x[1] for x in most_common]
-            self.kickers += [Rank[name] for name, _ in most_common]
-            if counts[0] == 4:
-                self.hand_type = HandType.FOUR_OF_A_KIND
-            elif counts[0] == 3:
-                if counts[1] == 2:
-                    self.hand_type = HandType.FULL_HOUSE
-                else:
-                    self.hand_type = HandType.THREE_OF_A_KIND
-            elif counts[0] == 2:
-                if counts[1] == 2:
-                    self.hand_type = HandType.TWO_PAIR
-                else:
-                    self.hand_type = HandType.PAIR
+    def _score_flush(self):
+        self.hand_type = HandType.FLUSH
+        self.kickers = [c.rank for c in self.cards]
+
+    def _score_straight(self):
+        self.hand_type = HandType.STRAIGHT
+        self.kickers.append(self.cards[0].rank)
+
+    def _score_rank_match(self):
+        counter = Counter([card.rank.name for card in self.cards])
+        most_common = counter.most_common()
+        counts = [x[1] for x in most_common]
+        self.kickers += [Rank[name] for name, _ in most_common]
+
+        if counts[0] == 4:
+            self.hand_type = HandType.FOUR_OF_A_KIND
+        elif counts[0] == 3:
+            if counts[1] == 2:
+                self.hand_type = HandType.FULL_HOUSE
             else:
-                self.hand_type = HandType.HIGH_CARD
-        return
+                self.hand_type = HandType.THREE_OF_A_KIND
+        elif counts[0] == 2:
+            if counts[1] == 2:
+                self.hand_type = HandType.TWO_PAIR
+            else:
+                self.hand_type = HandType.PAIR
+        else:
+            self.hand_type = HandType.HIGH_CARD
 
     def check_straight(self):
         self.sort(aces_high=True)
