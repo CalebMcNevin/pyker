@@ -28,7 +28,7 @@ from typing import Tuple
 from .enums import Rank, Suit
 
 
-class Card(object):
+class Card():
     """Represents a single playing card with a rank and a suit.
 
     Card objects can be instantiated with a two-character string representation or a tuple of rank
