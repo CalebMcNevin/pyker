@@ -3,7 +3,7 @@ from functools import total_ordering
 from collections import Counter
 
 from .enums import Rank, Suit, HandType
-from .utils import sort_cards_by_rank
+from ._utils import sort_cards_by_rank
 
 
 @total_ordering

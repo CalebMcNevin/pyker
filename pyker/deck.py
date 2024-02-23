@@ -7,7 +7,7 @@ from typing import Tuple
 
 from .card import Card
 from .enums import Rank, Suit
-from .utils import sort_cards_by_rank
+from ._utils import sort_cards_by_rank
 from .scored_hand import ScoredHand
 
 
