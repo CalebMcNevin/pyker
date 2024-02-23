@@ -28,7 +28,7 @@ from typing import Tuple
 from .enums import Rank, Suit
 
 
-class Card(object):
+class Card():
     """Represents a single playing card with a rank and a suit.
 
     Card objects can be instantiated with a two-character string representation or a tuple of rank
@@ -124,10 +124,10 @@ class Card(object):
             return False
         if abs(self.rank.number - other.rank.number) == 1:
             return True
-        if self.rank == Rank.ACE or other.rank == Rank.ACE:
-            if self.rank == Rank.TWO or other.rank == Rank.TWO:
+        if Rank.ACE in {self.rank,other.rank):
+            if Rank.TWO in {self.rank, other.rank):
                 return True
-            if self.rank == Rank.KING or other.rank == Rank.KING:
+            if Rank.KING in {self.rank, other.rank):
                 return True
         return False
 
@@ -167,6 +167,6 @@ class Card(object):
         enums = list(Rank) + list(Suit)
         mapping = {e.alias: e for e in enums}
         els = [mapping[e] for e in card_def]
-        rank = list(filter(lambda e: type(e) == Rank, els))[0]
-        suit = list(filter(lambda e: type(e) == Suit, els))[0]
+        rank = list(filter(lambda e: isinstance(e,Rank), els))[0]
+        suit = list(filter(lambda e: isinstance(e,Suit), els))[0]
         return (rank, suit)
