@@ -60,6 +60,9 @@ class Card(object):
             return False
         return self > other and self @ other
 
+    def __str__(self):
+        return f"{self.rank.alias}{self.suit.symbol}"
+    
     @staticmethod
     def parse_card(card_def: str):
         if len(card_def.strip()) != 2:
@@ -72,5 +75,3 @@ class Card(object):
         suit = list(filter(lambda e: type(e) == Suit, els))[0]
         return (rank, suit)
 
-    def __str__(self):
-        return f"{self.rank.alias}{self.suit.symbol}"
