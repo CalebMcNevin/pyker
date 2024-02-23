@@ -1,92 +1,99 @@
 from __future__ import annotations
-from typing import Tuple
-from random import shuffle
-from itertools import product, combinations
-from functools import cached_property
 
-from .enums import Rank, Suit
+from functools import cached_property
+from itertools import combinations, product
+from random import shuffle
+from typing import Tuple
+
 from .card import Card
+from .enums import Rank, Suit
 from .scored_hand import ScoredHand
 
 
 class Deck():
-    _id = 0
+    _id: int = 0
 
     def __init__(
-        self,
+        self: Deck,
         card_def: str | list[Card] | Tuple[list[Rank], list[Suit]]
         | 'Deck' | None = None,
     ):
         match card_def:
             case str():
-                self.cards = Deck.parse_cards(card_def)
+                self.cards: list[Card] = Deck.parse_cards(card_def)
             case list():
-                self.cards = card_def
+                self.cards: list[Card] = card_def
             case tuple():
-                ranks, suits = card_def
-                self.cards = [Card((r, s)) for (r, s) in product(ranks, suits)]
+                ranks: list[Rank] = card_def[0]
+                suits: list[Rank] = card_def[1]
+                self.cards: list[Card] = [
+                    Card((r, s)) for (r, s) in product(ranks, suits)
+                ]
             case Deck():
-                self.cards = card_def.cards
+                self.cards: list[Rank] = card_def.cards
             case None:
-                self.cards = [Card((r, s)) for (r, s) in product(Rank, Suit)]
+                self.cards: list[Rank] = [
+                    Card((r, s)) for (r, s) in product(Rank, Suit)
+                ]
             case _:
                 raise ValueError
         Deck._id += 1
-        self._id = Deck._id
-        self._original_cardset = self.cards
-        self._best_hand_updated = False
+        self._id: int = Deck._id
+        self._original_cardset: list[Card] = self.cards
+        self._best_hand_updated: bool = False
         self.sort()
 
-    def __str__(self):
+    def __str__(self: Deck) -> str:
         return "  ".join(str(card) for card in self.cards)
 
-    def __repr__(self):
+    def __repr__(self: Deck) -> str:
         class_name = type(self).__name__
         cards_list = '  '.join(str(card) for card in self.cards[:8])
-        return f'<{class_name} id={self._id} num_cards={len(self.cards)} cards=[{cards_list} {"..." if len(self.cards)>8 else ""}]>'
+        result = f'<{class_name} id={self._id} num_cards={len(self.cards)}'
+        result += f' cards=[{cards_list} {"..." if len(self.cards)>8 else ""}]>'
+        return result
 
-    def __iter__(self):
+    def __iter__(self: Deck) -> iter:
         return iter(self.cards)
 
-    def __getitem__(self, index):
+    def __getitem__(self: Deck, index: int) -> Card:
         return self.cards[index]
 
-    def __eq__(self, other):
+    def __eq__(self: Deck, other: Deck) -> bool:
         return self.cards == other.cards
 
-    def __add__(self, other):
+    def __add__(self: Deck, other: Deck) -> None:
         return Deck(self.cards + other.cards)
 
     @property
-    def original_cardset(self):
+    def original_cardset(self: Deck) -> list[Card]:
         return list(self._original_cardset)
 
     @staticmethod
-    def parse_cards(card_def: str = ''):
+    def parse_cards(card_def: str = '') -> Tuple[Rank, Suit]:
         card_strings = card_def.split(' ')
         cards = [Card(cs) for cs in card_strings]
-        print(cards)
         return cards
 
-    def retrieve_cards(self):
-        """Retrieve all cards that have been dealt or removed from the cards list"""
+    def retrieve_cards(self: Deck) -> None:
+        """Reset cards list to original. Equivalent to 'retrieving' all dealt cards."""
         self.cards = self._original_cardset
 
-    def shuffle(self):
+    def shuffle(self: Deck) -> None:
         shuffle(self.cards)
 
-    def deal(self, n_cards: int = 1):
+    def deal(self: Deck, n_cards: int = 1) -> Deck:
         self.cards, dealt_cards = self.cards[n_cards:], self.cards[:n_cards]
         if self._best_hand_updated:
             del self.best_hand
         return Deck(dealt_cards)
 
-    def add_cards(self, cards):
+    def add_cards(self: Deck, cards: list[Card]) -> None:
         self.cards += cards
         if self._best_hand_updated:
             del self.best_hand
 
-    def sort_by_rank(self, aces_high: bool = True):
+    def sort_by_rank(self: Deck, aces_high: bool = True) -> None:
         self.cards = sorted(self.cards,
                             reverse=True,
                             key=lambda card: card.rank.number
@@ -94,15 +101,15 @@ class Deck():
                             (card.rank.number
                              if card.rank != Rank.ACE else 14))
 
-    def sort_by_suit(self):
+    def sort_by_suit(self: Deck) -> None:
         self.cards = sorted(self.cards, key=lambda card: card.suit.index)
 
-    def sort(self):
+    def sort(self: Deck) -> None:
         self.sort_by_suit()
         self.sort_by_rank()
 
     @cached_property
-    def best_hand(self):
+    def best_hand(self: Deck) -> ScoredHand:
         self.best_hand_updated = True
         possible_hands = combinations(self.cards, 5)
         best_hand = max(ScoredHand(list(h)) for h in possible_hands)
