@@ -167,6 +167,6 @@ class Card():
         enums = list(Rank) + list(Suit)
         mapping = {e.alias: e for e in enums}
         els = [mapping[e] for e in card_def]
-        rank = list(filter(lambda e: type(e) == Rank, els))[0]
-        suit = list(filter(lambda e: type(e) == Suit, els))[0]
+        rank = list(filter(lambda e: isinstance(e,Rank), els))[0]
+        suit = list(filter(lambda e: isinstance(e,Suit), els))[0]
         return (rank, suit)
