@@ -9,7 +9,7 @@ from .card import Card
 from .scored_hand import ScoredHand
 
 
-class Deck(object):
+class Deck():
     _id = 0
 
     def __init__(
