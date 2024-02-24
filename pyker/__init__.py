@@ -1,32 +1,32 @@
-"""Pyker: A Python package for cards/deck management and poker hand scoring.
+"""Pyker: A Python package for cards/CardSet management and poker hand scoring.
 
-Pyker provides classes and functions for managing decks of cards, evaluating poker hands, and
+Pyker provides classes and functions for managing cards, evaluating poker hands, and
 performing various operations related to card games.
 
 Classes:
     - Card: Represents a playing card with a rank and a suit.
-    - Deck: Represents a collection of cards.
+    - CardSet: Represents a collection of cards.
 
 Enums:
-    - Suit: Enumerates the four suits in a standard deck of cards (Spades, Hearts, Clubs, Diamonds).
-    - Rank: Enumerates the ranks of cards in a standard deck (Ace through King).
+    - Suit: Enumerates the four suits in a standard Deck of cards (Spades, Hearts, Clubs, Diamonds).
+    - Rank: Enumerates the ranks of cards in a standard Deck (Ace through King).
     - HandType: Enumerates the possible types of poker hands.
 
 Usage:
     To use Pyker, simply import the desired classes and functions from the pyker module:
 
-    >>> from pyker.deck import Deck
+    >>> from pyker.CardSet import CardSet
     >>> from pyker.card import Card
     >>> from pyker.enums import Suit, Rank, HandType
 
     # Example usage:
-    >>> deck = Deck()
+    >>> deck = CardSet()
     >>> deck.shuffle()
     >>> hand = deck.deal(5)
 
 
     # Hold'em example
-    >>> deck = Deck()
+    >>> deck = CardSet()
     >>> deck.suffle()
     >>> player_1 = deck.deal(2)
     >>> player_2 = deck.deal(2)
@@ -47,5 +47,5 @@ within the package.
 
 from .enums import Suit, Rank, HandType
 from .card import Card
-from .deck import Deck
+from .card_set import CardSet
 from .scored_hand import ScoredHand
